@@ -1,12 +1,12 @@
-[<img src="https://raw.githubusercontent.com/mineiros-io/brand/3bffd30e8bdbbde32c143e2650b2faa55f1df3ea/mineiros-primary-logo.svg" width="400"/>](https://mineiros.io/?ref=terraform-module-template)
+[<img src="https://raw.githubusercontent.com/mineiros-io/brand/3bffd30e8bdbbde32c143e2650b2faa55f1df3ea/mineiros-primary-logo.svg" width="400"/>](https://mineiros.io/?ref=terraform-google-pubsub-topic)
 
-[![Build Status](https://github.com/mineiros-io/terraform-module-template/workflows/Tests/badge.svg)](https://github.com/mineiros-io/terraform-module-template/actions)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/mineiros-io/terraform-module-template.svg?label=latest&sort=semver)](https://github.com/mineiros-io/terraform-module-template/releases)
+[![Build Status](https://github.com/mineiros-io/terraform-google-pubsub-topic/workflows/Tests/badge.svg)](https://github.com/mineiros-io/terraform-google-pubsub-topic/actions)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/mineiros-io/terraform-google-pubsub-topic.svg?label=latest&sort=semver)](https://github.com/mineiros-io/terraform-google-pubsub-topic/releases)
 [![Terraform Version](https://img.shields.io/badge/Terraform-1.x-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
 [![AWS Provider Version](https://img.shields.io/badge/AWS-3-F8991D.svg?logo=terraform)](https://github.com/terraform-providers/terraform-provider-aws/releases)
 [![Join Slack](https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack)](https://mineiros.io/slack)
 
-# terraform-module-template
+# terraform-google-pubsub-topic
 
 A [Terraform] module for [Amazon Web Services (AWS)][aws].
 
@@ -50,8 +50,8 @@ and supports additional features of the following modules:
 Most common usage of the module:
 
 ```hcl
-module "terraform-module-template" {
-  source = "git@github.com:mineiros-io/terraform-module-template.git?ref=v0.0.1"
+module "terraform-google-pubsub-topic" {
+  source = "git@github.com:mineiros-io/terraform-google-pubsub-topic.git?ref=v0.0.1"
 }
 ```
 
@@ -248,7 +248,7 @@ Copyright &copy; 2020-2022 [Mineiros GmbH][homepage]
 
 <!-- References -->
 
-[homepage]: https://mineiros.io/?ref=terraform-module-template
+[homepage]: https://mineiros.io/?ref=terraform-google-pubsub-topic
 [hello@mineiros.io]: mailto:hello@mineiros.io
 [badge-license]: https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg
 [releases-terraform]: https://github.com/hashicorp/terraform/releases
@@ -258,10 +258,10 @@ Copyright &copy; 2020-2022 [Mineiros GmbH][homepage]
 [terraform]: https://www.terraform.io
 [aws]: https://aws.amazon.com/
 [semantic versioning (semver)]: https://semver.org/
-[variables.tf]: https://github.com/mineiros-io/terraform-module-template/blob/main/variables.tf
-[examples/]: https://github.com/mineiros-io/terraform-module-template/blob/main/examples
-[issues]: https://github.com/mineiros-io/terraform-module-template/issues
-[license]: https://github.com/mineiros-io/terraform-module-template/blob/main/LICENSE
-[makefile]: https://github.com/mineiros-io/terraform-module-template/blob/main/Makefile
-[pull requests]: https://github.com/mineiros-io/terraform-module-template/pulls
-[contribution guidelines]: https://github.com/mineiros-io/terraform-module-template/blob/main/CONTRIBUTING.md
+[variables.tf]: https://github.com/mineiros-io/terraform-google-pubsub-topic/blob/main/variables.tf
+[examples/]: https://github.com/mineiros-io/terraform-google-pubsub-topic/blob/main/examples
+[issues]: https://github.com/mineiros-io/terraform-google-pubsub-topic/issues
+[license]: https://github.com/mineiros-io/terraform-google-pubsub-topic/blob/main/LICENSE
+[makefile]: https://github.com/mineiros-io/terraform-google-pubsub-topic/blob/main/Makefile
+[pull requests]: https://github.com/mineiros-io/terraform-google-pubsub-topic/pulls
+[contribution guidelines]: https://github.com/mineiros-io/terraform-google-pubsub-topic/blob/main/CONTRIBUTING.md
