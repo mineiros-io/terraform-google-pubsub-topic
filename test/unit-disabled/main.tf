@@ -4,23 +4,28 @@
 # The purpose is to verify no resources are created when the module is disabled.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-variable "aws_region" {
-  description = "(Optional) The AWS region in which all resources will be created."
+variable "gcp_region" {
   type        = string
-  default     = "us-east-1"
+  description = "(Required) The gcp region in which all resources will be created."
+}
+
+variable "gcp_project" {
+  type        = string
+  description = "(Required) The ID of the project in which the resource belongs."
 }
 
 terraform {
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
     }
   }
 }
 
-provider "aws" {
-  region = var.aws_region
+provider "google" {
+  region  = var.gcp_region
+  project = var.gcp_project
 }
 
 # DO NOT RENAME MODULE NAME
@@ -31,7 +36,35 @@ module "test" {
 
   # add all required arguments
 
+  name    = "test-name"
+  project = "terraform-service-catalog"
+
   # add all optional arguments that create additional resources
+  iam = [
+    {
+      role    = "roles/editor"
+      members = ["allUsers"]
+    }
+  ]
+}
+
+module "testA" {
+  source = "../.."
+
+  module_enabled = false
+
+  # add all required arguments
+
+  name    = "test-name"
+  project = "terraform-service-catalog"
+
+  # add all optional arguments that create additional resources
+  policy_bindings = [
+    {
+      role    = "roles/editor"
+      members = ["allUsers"]
+    }
+  ]
 }
 
 # outputs generate non-idempotent terraform plans so we disable them for now unless we need them.
