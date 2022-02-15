@@ -81,6 +81,12 @@ variable "policy_bindings" {
   }
 }
 
+variable "subscriptions" {
+  description = "(Optional) List of subscriptions."
+  type        = any
+  default     = null
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 # MODULE CONFIGURATION PARAMETERS
 # These variables are used to configure the module.

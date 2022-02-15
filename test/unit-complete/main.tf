@@ -55,11 +55,41 @@ module "test" {
     "us-west1",
   ]
 
-  module_depends_on = ["nothing"]
-}
+  subscriptions = [
+    {
+      name    = "test-name"
+      project = "terraform-service-catalog"
+      topic   = "test-topic"
 
-# outputs generate non-idempotent terraform plans so we disable them for now unless we need them.
-# output "all" {
-#   description = "All outputs of the module."
-#   value       = module.test
-# }
+      labels = {
+        "test" = "test"
+      }
+
+      ack_deadline_seconds       = 10
+      message_retention_duration = "60s"
+      retain_acked_messages      = false
+      filter                     = "*"
+      enable_message_ordering    = true
+      expiration_policy_ttl      = "10s"
+
+      retry_policy = {
+        minimum_backoff = "10s"
+        maximum_backoff = "60s"
+      }
+
+      iam = [
+        {
+          role    = "roles/viewer"
+          members = ["domain:mineiros.io"]
+        }
+      ]
+    ]
+
+    module_depends_on = ["nothing"]
+  }
+
+  # outputs generate non-idempotent terraform plans so we disable them for now unless we need them.
+  # output "all" {
+  #   description = "All outputs of the module."
+  #   value       = module.test
+  # }
