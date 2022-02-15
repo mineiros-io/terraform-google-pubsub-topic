@@ -83,13 +83,14 @@ module "test" {
           members = ["domain:mineiros.io"]
         }
       ]
-    ]
+    }
+  ]
 
-    module_depends_on = ["nothing"]
-  }
+  module_depends_on = ["nothing"]
+}
 
-  # outputs generate non-idempotent terraform plans so we disable them for now unless we need them.
-  # output "all" {
-  #   description = "All outputs of the module."
-  #   value       = module.test
-  # }
+# outputs generate non-idempotent terraform plans so we disable them for now unless we need them.
+# output "all" {
+#   description = "All outputs of the module."
+#   value       = module.test
+# }
