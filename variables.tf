@@ -82,9 +82,9 @@ variable "policy_bindings" {
 }
 
 variable "subscriptions" {
-  description = "(Optional) List of subscriptions."
+  description = "(Optional) A list of subscriptions for the PubSub topic."
   type        = any
-  default     = null
+  default     = []
 }
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -18,7 +18,7 @@ output "iam" {
 
 output "subscription" {
   description = "All attributes of the created subscriptions."
-  value       = { for key, sub in module.subscription : key => sub.sub }
+  value       = module.subscription
 }
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 module "subscription" {
   source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v0.0.1"
 
-  for_each = var.module_enabled ? var.subscriptions : tomap({})
+  for_each = var.module_enabled ? var.subscriptions : {}
 
   project = var.project
   topic   = var.name
