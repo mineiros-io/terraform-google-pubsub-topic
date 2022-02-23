@@ -13,12 +13,12 @@ output "topic" {
 
 output "iam" {
   description = "The iam resource objects that define access to the GCS bucket."
-  value       = { for key, iam in module.topic-iam : key => iam.iam }
+  value       = { for key, iam in module.iam : key => iam }
 }
 
 output "subscription" {
   description = "All attributes of the created subscriptions."
-  value       = { for key, sub in module.subscription : key => sub.sub }
+  value       = module.subscription
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
