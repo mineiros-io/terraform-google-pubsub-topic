@@ -1,11 +1,15 @@
+locals {
+  subscriptions_map = { for subscription in var.subscriptions : subscription.name => subscription }
+}
+
 module "subscription" {
   source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v0.0.1"
 
   for_each = var.module_enabled ? var.subscriptions : {}
 
-  project = var.project
-  topic   = var.name
-  name    = each.key
+  project = google_pubsub_topic.topic[0].project
+  topic   = google_pubsub_topic.topic[0].name
+  name    = each.value.name
 
   labels                     = try(each.value.labels, {})
   ack_deadline_seconds       = try(each.value.ack_deadline_seconds, null)
