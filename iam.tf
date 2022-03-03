@@ -2,7 +2,7 @@ locals {
   iam_map = { for iam in var.iam : iam.role => iam }
 }
 
-module "topic-iam" {
+module "iam" {
   source = "github.com/mineiros-io/terraform-google-pubsub-topic-iam?ref=v0.0.3"
 
   for_each = var.policy_bindings == null ? local.iam_map : {}

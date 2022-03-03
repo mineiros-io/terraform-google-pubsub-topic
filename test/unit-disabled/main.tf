@@ -67,6 +67,26 @@ module "testA" {
   ]
 }
 
+module "testB" {
+  source = "../.."
+
+  module_enabled = false
+
+  # add all required arguments
+
+  name    = "test-name"
+  project = "terraform-service-catalog"
+
+  # add all optional arguments that create additional resources
+  subscriptions = [
+    {
+      name    = "test-name"
+      project = "terraform-service-catalog"
+      topic   = "test-topic"
+    }
+  ]
+}
+
 # outputs generate non-idempotent terraform plans so we disable them for now unless we need them.
 # output "all" {
 #   description = "All outputs of the module."

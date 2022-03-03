@@ -81,6 +81,12 @@ variable "policy_bindings" {
   }
 }
 
+variable "subscriptions" {
+  description = "(Optional) A list of subscriptions for the PubSub topic."
+  type        = any
+  default     = []
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 # MODULE CONFIGURATION PARAMETERS
 # These variables are used to configure the module.
