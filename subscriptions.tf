@@ -8,7 +8,7 @@ module "subscription" {
   for_each = var.module_enabled ? var.subscriptions : {}
 
   project = google_pubsub_topic.topic[0].project
-  topic   = google_pubsub_topic.topic[0].name
+  topic   = google_pubsub_topic.topic[0].id
   name    = each.value.name
 
   labels                     = try(each.value.labels, {})
