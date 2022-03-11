@@ -120,6 +120,55 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 ### Extended Resource Configuration
 
+- [**`schema`**](#var-schema): *(Optional `object(schema)`)*<a name="var-schema"></a>
+
+  A schema is a format that messages must follow, creating a contract between publisher and subscriber that Pub/Sub will enforce.
+
+  Example:
+
+  ```hcl
+  schema = {
+    name       = "example"
+    type       = "AVRO"
+    encoding   = "JSON"
+    definition = jsonencode({
+      type = "record"
+      name = "Avro"
+      fields =  [
+        {
+          name = "StringField"
+          type = "string"
+        },
+        {
+          name = "IntField"
+          type = "int"
+        }
+      ]
+    }
+  }
+  ```
+
+  The `schema` object accepts the following attributes:
+
+  - [**`name`**](#attr-schema-name): *(Optional `string`)*<a name="attr-schema-name"></a>
+
+    The ID to use for the schema, which will become the final component of the schema's resource name.
+
+  - [**`type`**](#attr-schema-type): *(Optional `string`)*<a name="attr-schema-type"></a>
+
+    The type of the schema definition Default value is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+
+  - [**`definition`**](#attr-schema-definition): *(Optional `string`)*<a name="attr-schema-definition"></a>
+
+    The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
+
+  - [**`encoding`**](#attr-schema-encoding): *(Optional `string`)*<a name="attr-schema-encoding"></a>
+
+    The encoding of messages validated against schema.
+    Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
+
+    Default is `"ENCODING_UNSPECIFIED"`.
+
 - [**`subscriptions`**](#var-subscriptions): *(Optional `list(subscription)`)*<a name="var-subscriptions"></a>
 
   The list of the subscriptions that will be created for the PubSub

@@ -162,6 +162,64 @@ section {
     section {
       title = "Extended Resource Configuration"
 
+      variable "schema" {
+        type           = object(schema)
+        description    = <<-END
+          A schema is a format that messages must follow, creating a contract between publisher and subscriber that Pub/Sub will enforce.
+        END
+        readme_example = <<-END
+          schema = {
+            name       = "example"
+            type       = "AVRO"
+            encoding   = "JSON"
+            definition = jsonencode({
+              type = "record"
+              name = "Avro"
+              fields =  [
+                {
+                  name = "StringField"
+                  type = "string"
+                },
+                {
+                  name = "IntField"
+                  type = "int"
+                }
+              ]
+            }
+          }
+        END
+
+        attribute "name" {
+          type        = string
+          description = <<-END
+            The ID to use for the schema, which will become the final component of the schema's resource name.
+          END
+        }
+
+        attribute "type" {
+          type        = string
+          description = <<-END
+            The type of the schema definition Default value is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+          END
+        }
+
+        attribute "definition" {
+          type        = string
+          description = <<-END
+            The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
+          END
+        }
+
+        attribute "encoding" {
+          type        = string
+          description = <<-END
+            The encoding of messages validated against schema.
+            Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
+          END
+          default = "ENCODING_UNSPECIFIED"
+        }
+      }
+
       variable "subscriptions" {
         type           = list(subscription)
         default        = []

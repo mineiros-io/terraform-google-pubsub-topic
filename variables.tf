@@ -93,6 +93,12 @@ variable "subscriptions" {
   default     = []
 }
 
+variable "schema" {
+  type        = any
+  description = "(Optional) A schema is a format that messages must follow, creating a contract between publisher and subscriber that Pub/Sub will enforce."
+  default     = null
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 # MODULE CONFIGURATION PARAMETERS
 # These variables are used to configure the module.
