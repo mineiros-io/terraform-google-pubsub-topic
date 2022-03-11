@@ -54,7 +54,8 @@ section {
     content = <<-END
       This module implements the following Terraform resources
 
-      - `google_pubsub_topic`
+      - [`google_pubsub_topic`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_topic)
+      - [`google_pubsub_schema`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_schema)
 
       and supports additional features of the following modules:
 
