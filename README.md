@@ -93,6 +93,14 @@ See [variables.tf] and [examples/] for details and use-cases.
   feature. The expected format is
   `projects/*/locations/*/keyRings/*/cryptoKeys/*`
 
+- [**`message_retention_duration`**](#var-message_retention_duration): *(Optional `string`)*<a name="var-message_retention_duration"></a>
+
+  Indicates the minimum duration to retain a message after it is published to the topic.
+  If this field is set, messages published to the topic in the last messageRetentionDuration are always available to subscribers.
+  For instance, it allows any attached subscription to seek to a timestamp that is up to messageRetentionDuration in the past.
+  If this field is not set, message retention is controlled by settings on individual subscriptions.
+  Cannot be more than 7 days or less than 10 minutes.
+
 - [**`allowed_persistence_regions`**](#var-allowed_persistence_regions): *(Optional `set(string)`)*<a name="var-allowed_persistence_regions"></a>
 
   A list of IDs of GCP regions where messages that are published to the

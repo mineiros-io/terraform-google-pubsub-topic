@@ -8,6 +8,8 @@ resource "google_pubsub_topic" "topic" {
 
   kms_key_name = var.kms_key_name
 
+  message_retention_duration = var.message_retention_duration
+
   dynamic "message_storage_policy" {
     for_each = var.allowed_persistence_regions != null ? [1] : []
 
