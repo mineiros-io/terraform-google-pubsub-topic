@@ -46,8 +46,8 @@ This module implements the following Terraform resources
 
 and supports additional features of the following modules:
 
-- [mineiros-io/terraform-google-pubsub-topic-iam](github.com/mineiros-io/terraform-google-pubsub-topic-iam)
-- [mineiros-io/terraform-google-pubsub-subscription](github.com/mineiros-io/terraform-google-pubsub-subscription)
+- [mineiros-io/terraform-google-pubsub-topic-iam](https://github.com/mineiros-io/terraform-google-pubsub-topic-iam)
+- [mineiros-io/terraform-google-pubsub-subscription](https://github.com/mineiros-io/terraform-google-pubsub-subscription)
 
 ## Getting Started
 

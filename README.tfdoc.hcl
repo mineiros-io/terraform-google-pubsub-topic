@@ -58,8 +58,8 @@ section {
 
       and supports additional features of the following modules:
 
-      - [mineiros-io/terraform-google-pubsub-topic-iam](github.com/mineiros-io/terraform-google-pubsub-topic-iam)
-      - [mineiros-io/terraform-google-pubsub-subscription](github.com/mineiros-io/terraform-google-pubsub-subscription)
+      - [mineiros-io/terraform-google-pubsub-topic-iam](https://github.com/mineiros-io/terraform-google-pubsub-topic-iam)
+      - [mineiros-io/terraform-google-pubsub-subscription](https://github.com/mineiros-io/terraform-google-pubsub-subscription)
     END
   }
 
@@ -229,7 +229,7 @@ section {
             in time a `subscriptions.seek` can be done. Defaults to 7 days.
             Cannot be more than 7 days (`604800s`) or less than 10 minutes
             (`600s`). A duration in seconds with up to nine fractional digits,
-            terminated by `s`. 
+            terminated by `s`.
           END
         }
 
@@ -363,7 +363,7 @@ section {
             description = <<-END
               If specified, Pub/Sub will generate and attach an OIDC JWT token as
               an Authorization header in the HTTP request for every pushed
-              message. 
+              message.
             END
 
             attribute "service_account_email" {
