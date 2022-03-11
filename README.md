@@ -112,13 +112,52 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Default is `[]`.
 
-- [**`iam`**](#var-iam): *(Optional `set(string)`)*<a name="var-iam"></a>
+### Extended Resource Configuration
 
-  A list of iam members to gran publish access to the topic
+- [**`iam`**](#var-iam): *(Optional `list(iam)`)*<a name="var-iam"></a>
+
+  List of IAM access roles to grant identities on the topic.
 
   Default is `[]`.
 
-### Extended Resource Configuration
+  Each `iam` object in the list accepts the following attributes:
+
+  - [**`role`**](#attr-iam-role): *(Optional `string`)*<a name="attr-iam-role"></a>
+
+    The role that should be applied. Only one
+    `google_pubsub_subscription_iam_binding` can be used per role.
+    Note that custom roles must be of the format
+    `[projects|organizations]/{parent-name}/roles/{role-name}`.
+
+  - [**`members`**](#attr-iam-members): *(Optional `set(string)`)*<a name="attr-iam-members"></a>
+
+    Identities that will be granted the privilege in role. Each entry
+    can have one of the following values:
+
+    - `allUsers`: A special identifier that represents anyone who is on
+      the internet; with or without a Google account.
+    - `allAuthenticatedUsers`: A special identifier that represents
+      anyone who is authenticated with a Google account or a service
+      account.
+    - `user:{emailid}`: An email address that represents a specific
+      Google account. For example, `alice@gmail.com` or `joe@example.com`.
+    - `serviceAccount:{emailid}`: An email address that represents a
+      service account. For example,
+      `my-other-app@appspot.gserviceaccount.com`.
+    - `group:{emailid}`: An email address that represents a Google
+      group. For example, `admins@example.com`.
+    - `domain:{domain}`: A G Suite domain (primary, instead of alias)
+      name that represents all the users of that domain. For example,
+      `google.com` or `example.com`.
+
+    Default is `[]`.
+
+  - [**`authoritative`**](#attr-iam-authoritative): *(Optional `bool`)*<a name="attr-iam-authoritative"></a>
+
+    Whether to exclusively set (authoritative mode) or add
+    (non-authoritative/additive mode) members to the role.
+
+    Default is `true`.
 
 - [**`schema`**](#var-schema): *(Optional `object(schema)`)*<a name="var-schema"></a>
 
