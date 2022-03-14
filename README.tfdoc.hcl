@@ -159,7 +159,7 @@ section {
         type        = list(iam)
         default     = []
         description = <<-END
-          List of IAM access roles to grant identities on the topic.
+          List of IAM access roles to grant to a set of identities on the topic.
         END
 
         attribute "role" {
@@ -541,8 +541,9 @@ section {
 
         attribute "iam" {
           type        = list(iam)
+          default     = []
           description = <<-END
-            List of IAM access roles to grant identities on the subscription.
+            List of IAM access roles to grant to a set of identities on the subscription.
           END
 
           attribute "role" {
