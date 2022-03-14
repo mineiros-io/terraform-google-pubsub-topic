@@ -32,6 +32,12 @@ variable "labels" {
   default = {}
 }
 
+variable "message_retention_duration" {
+  type        = string
+  description = "(Optional) Indicates the minimum duration to retain a message after it is published to the topic. If this field is set, messages published to the topic in the last messageRetentionDuration are always available to subscribers. For instance, it allows any attached subscription to seek to a timestamp that is up to messageRetentionDuration in the past. If this field is not set, message retention is controlled by settings on individual subscriptions. Cannot be more than 7 days or less than 10 minutes."
+  default     = null
+}
+
 variable "kms_key_name" {
   type        = string
   description = "(Optional) The resource name of the Cloud KMS CryptoKey to be used to protect access to messages published on this topic. Default is 'null'."
@@ -85,6 +91,12 @@ variable "subscriptions" {
   description = "(Optional) A list of subscriptions for the PubSub topic."
   type        = any
   default     = []
+}
+
+variable "schema" {
+  type        = any
+  description = "(Optional) A schema is a format that messages must follow, creating a contract between publisher and subscriber that Pub/Sub will enforce."
+  default     = null
 }
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -54,12 +54,13 @@ section {
     content = <<-END
       This module implements the following Terraform resources
 
-      - `google_pubsub_topic`
+      - [`google_pubsub_topic`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_topic)
+      - [`google_pubsub_schema`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_schema)
 
       and supports additional features of the following modules:
 
-      - [mineiros-io/terraform-google-pubsub-topic-iam](github.com/mineiros-io/terraform-google-pubsub-topic-iam)
-      - [mineiros-io/terraform-google-pubsub-subscription](github.com/mineiros-io/terraform-google-pubsub-subscription)
+      - [mineiros-io/terraform-google-pubsub-topic-iam](https://github.com/mineiros-io/terraform-google-pubsub-topic-iam)
+      - [mineiros-io/terraform-google-pubsub-subscription](https://github.com/mineiros-io/terraform-google-pubsub-subscription)
     END
   }
 
@@ -126,6 +127,17 @@ section {
         END
       }
 
+      variable "message_retention_duration" {
+        type        = string
+        description = <<-END
+          Indicates the minimum duration to retain a message after it is published to the topic.
+          If this field is set, messages published to the topic in the last messageRetentionDuration are always available to subscribers.
+          For instance, it allows any attached subscription to seek to a timestamp that is up to messageRetentionDuration in the past.
+          If this field is not set, message retention is controlled by settings on individual subscriptions.
+          Cannot be more than 7 days or less than 10 minutes.
+        END
+      }
+
       variable "allowed_persistence_regions" {
         type        = set(string)
         default     = []
@@ -138,18 +150,120 @@ section {
           configuration.
         END
       }
-
-      variable "iam" {
-        type        = set(string)
-        default     = []
-        description = <<-END
-          A list of iam members to gran publish access to the topic
-        END
-      }
     }
 
     section {
       title = "Extended Resource Configuration"
+
+      variable "iam" {
+        type        = list(iam)
+        default     = []
+        description = <<-END
+          List of IAM access roles to grant identities on the topic.
+        END
+
+        attribute "role" {
+          type        = string
+          description = <<-END
+            The role that should be applied. Only one
+            `google_pubsub_subscription_iam_binding` can be used per role.
+            Note that custom roles must be of the format
+            `[projects|organizations]/{parent-name}/roles/{role-name}`.
+          END
+        }
+
+        attribute "members" {
+          type        = set(string)
+          default     = []
+          description = <<-END
+            Identities that will be granted the privilege in role. Each entry
+            can have one of the following values:
+
+            - `allUsers`: A special identifier that represents anyone who is on
+              the internet; with or without a Google account.
+            - `allAuthenticatedUsers`: A special identifier that represents
+              anyone who is authenticated with a Google account or a service
+              account.
+            - `user:{emailid}`: An email address that represents a specific
+              Google account. For example, `alice@gmail.com` or `joe@example.com`.
+            - `serviceAccount:{emailid}`: An email address that represents a
+              service account. For example,
+              `my-other-app@appspot.gserviceaccount.com`.
+            - `group:{emailid}`: An email address that represents a Google
+              group. For example, `admins@example.com`.
+            - `domain:{domain}`: A G Suite domain (primary, instead of alias)
+              name that represents all the users of that domain. For example,
+              `google.com` or `example.com`.
+          END
+        }
+
+        attribute "authoritative" {
+          type        = bool
+          default     = true
+          description = <<-END
+            Whether to exclusively set (authoritative mode) or add
+            (non-authoritative/additive mode) members to the role.
+          END
+        }
+      }
+
+      variable "schema" {
+        type           = object(schema)
+        description    = <<-END
+          A schema is a format that messages must follow, creating a contract between publisher and subscriber that Pub/Sub will enforce.
+        END
+        readme_example = <<-END
+          schema = {
+            name       = "example"
+            type       = "AVRO"
+            encoding   = "JSON"
+            definition = jsonencode({
+              type = "record"
+              name = "Avro"
+              fields =  [
+                {
+                  name = "StringField"
+                  type = "string"
+                },
+                {
+                  name = "IntField"
+                  type = "int"
+                }
+              ]
+            }
+          }
+        END
+
+        attribute "name" {
+          type        = string
+          description = <<-END
+            The ID to use for the schema, which will become the final component of the schema's resource name.
+          END
+        }
+
+        attribute "type" {
+          type        = string
+          description = <<-END
+            The type of the schema definition Default value is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+          END
+        }
+
+        attribute "definition" {
+          type        = string
+          description = <<-END
+            The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
+          END
+        }
+
+        attribute "encoding" {
+          type        = string
+          description = <<-END
+            The encoding of messages validated against schema.
+            Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
+          END
+          default = "ENCODING_UNSPECIFIED"
+        }
+      }
 
       variable "subscriptions" {
         type           = list(subscription)
@@ -229,7 +343,7 @@ section {
             in time a `subscriptions.seek` can be done. Defaults to 7 days.
             Cannot be more than 7 days (`604800s`) or less than 10 minutes
             (`600s`). A duration in seconds with up to nine fractional digits,
-            terminated by `s`. 
+            terminated by `s`.
           END
         }
 
@@ -363,7 +477,7 @@ section {
             description = <<-END
               If specified, Pub/Sub will generate and attach an OIDC JWT token as
               an Authorization header in the HTTP request for every pushed
-              message. 
+              message.
             END
 
             attribute "service_account_email" {

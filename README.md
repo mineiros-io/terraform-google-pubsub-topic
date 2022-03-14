@@ -42,12 +42,13 @@ secure, and production-grade cloud infrastructure.
 
 This module implements the following Terraform resources
 
-- `google_pubsub_topic`
+- [`google_pubsub_topic`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_topic)
+- [`google_pubsub_schema`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_schema)
 
 and supports additional features of the following modules:
 
-- [mineiros-io/terraform-google-pubsub-topic-iam](github.com/mineiros-io/terraform-google-pubsub-topic-iam)
-- [mineiros-io/terraform-google-pubsub-subscription](github.com/mineiros-io/terraform-google-pubsub-subscription)
+- [mineiros-io/terraform-google-pubsub-topic-iam](https://github.com/mineiros-io/terraform-google-pubsub-topic-iam)
+- [mineiros-io/terraform-google-pubsub-subscription](https://github.com/mineiros-io/terraform-google-pubsub-subscription)
 
 ## Getting Started
 
@@ -93,6 +94,14 @@ See [variables.tf] and [examples/] for details and use-cases.
   feature. The expected format is
   `projects/*/locations/*/keyRings/*/cryptoKeys/*`
 
+- [**`message_retention_duration`**](#var-message_retention_duration): *(Optional `string`)*<a name="var-message_retention_duration"></a>
+
+  Indicates the minimum duration to retain a message after it is published to the topic.
+  If this field is set, messages published to the topic in the last messageRetentionDuration are always available to subscribers.
+  For instance, it allows any attached subscription to seek to a timestamp that is up to messageRetentionDuration in the past.
+  If this field is not set, message retention is controlled by settings on individual subscriptions.
+  Cannot be more than 7 days or less than 10 minutes.
+
 - [**`allowed_persistence_regions`**](#var-allowed_persistence_regions): *(Optional `set(string)`)*<a name="var-allowed_persistence_regions"></a>
 
   A list of IDs of GCP regions where messages that are published to the
@@ -104,13 +113,101 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   Default is `[]`.
 
-- [**`iam`**](#var-iam): *(Optional `set(string)`)*<a name="var-iam"></a>
+### Extended Resource Configuration
 
-  A list of iam members to gran publish access to the topic
+- [**`iam`**](#var-iam): *(Optional `list(iam)`)*<a name="var-iam"></a>
+
+  List of IAM access roles to grant identities on the topic.
 
   Default is `[]`.
 
-### Extended Resource Configuration
+  Each `iam` object in the list accepts the following attributes:
+
+  - [**`role`**](#attr-iam-role): *(Optional `string`)*<a name="attr-iam-role"></a>
+
+    The role that should be applied. Only one
+    `google_pubsub_subscription_iam_binding` can be used per role.
+    Note that custom roles must be of the format
+    `[projects|organizations]/{parent-name}/roles/{role-name}`.
+
+  - [**`members`**](#attr-iam-members): *(Optional `set(string)`)*<a name="attr-iam-members"></a>
+
+    Identities that will be granted the privilege in role. Each entry
+    can have one of the following values:
+
+    - `allUsers`: A special identifier that represents anyone who is on
+      the internet; with or without a Google account.
+    - `allAuthenticatedUsers`: A special identifier that represents
+      anyone who is authenticated with a Google account or a service
+      account.
+    - `user:{emailid}`: An email address that represents a specific
+      Google account. For example, `alice@gmail.com` or `joe@example.com`.
+    - `serviceAccount:{emailid}`: An email address that represents a
+      service account. For example,
+      `my-other-app@appspot.gserviceaccount.com`.
+    - `group:{emailid}`: An email address that represents a Google
+      group. For example, `admins@example.com`.
+    - `domain:{domain}`: A G Suite domain (primary, instead of alias)
+      name that represents all the users of that domain. For example,
+      `google.com` or `example.com`.
+
+    Default is `[]`.
+
+  - [**`authoritative`**](#attr-iam-authoritative): *(Optional `bool`)*<a name="attr-iam-authoritative"></a>
+
+    Whether to exclusively set (authoritative mode) or add
+    (non-authoritative/additive mode) members to the role.
+
+    Default is `true`.
+
+- [**`schema`**](#var-schema): *(Optional `object(schema)`)*<a name="var-schema"></a>
+
+  A schema is a format that messages must follow, creating a contract between publisher and subscriber that Pub/Sub will enforce.
+
+  Example:
+
+  ```hcl
+  schema = {
+    name       = "example"
+    type       = "AVRO"
+    encoding   = "JSON"
+    definition = jsonencode({
+      type = "record"
+      name = "Avro"
+      fields =  [
+        {
+          name = "StringField"
+          type = "string"
+        },
+        {
+          name = "IntField"
+          type = "int"
+        }
+      ]
+    }
+  }
+  ```
+
+  The `schema` object accepts the following attributes:
+
+  - [**`name`**](#attr-schema-name): *(Optional `string`)*<a name="attr-schema-name"></a>
+
+    The ID to use for the schema, which will become the final component of the schema's resource name.
+
+  - [**`type`**](#attr-schema-type): *(Optional `string`)*<a name="attr-schema-type"></a>
+
+    The type of the schema definition Default value is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+
+  - [**`definition`**](#attr-schema-definition): *(Optional `string`)*<a name="attr-schema-definition"></a>
+
+    The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
+
+  - [**`encoding`**](#attr-schema-encoding): *(Optional `string`)*<a name="attr-schema-encoding"></a>
+
+    The encoding of messages validated against schema.
+    Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
+
+    Default is `"ENCODING_UNSPECIFIED"`.
 
 - [**`subscriptions`**](#var-subscriptions): *(Optional `list(subscription)`)*<a name="var-subscriptions"></a>
 
