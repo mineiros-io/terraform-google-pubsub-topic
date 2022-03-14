@@ -3,7 +3,7 @@ locals {
 }
 
 module "iam" {
-  source = "github.com/mineiros-io/terraform-google-pubsub-topic-iam?ref=v0.0.3"
+  source = "github.com/mineiros-io/terraform-google-pubsub-topic-iam?ref=v0.0.4"
 
   for_each = var.policy_bindings == null ? local.iam_map : {}
 
@@ -19,7 +19,7 @@ module "iam" {
 }
 
 module "policy_bindings" {
-  source = "github.com/mineiros-io/terraform-google-pubsub-topic-iam?ref=v0.0.3"
+  source = "github.com/mineiros-io/terraform-google-pubsub-topic-iam?ref=v0.0.4"
 
   count = var.policy_bindings != null ? 1 : 0
 
