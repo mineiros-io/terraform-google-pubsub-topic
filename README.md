@@ -117,7 +117,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 - [**`iam`**](#var-iam): *(Optional `list(iam)`)*<a name="var-iam"></a>
 
-  List of IAM access roles to grant identities on the topic.
+  List of IAM access roles to grant to a set of identities on the topic.
 
   Default is `[]`.
 
@@ -443,7 +443,9 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   - [**`iam`**](#attr-subscriptions-iam): *(Optional `list(iam)`)*<a name="attr-subscriptions-iam"></a>
 
-    List of IAM access roles to grant identities on the subscription.
+    List of IAM access roles to grant to a set of identities on the subscription.
+
+    Default is `[]`.
 
     Each `iam` object in the list accepts the following attributes:
 
