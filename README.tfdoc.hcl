@@ -234,24 +234,11 @@ section {
           }
         END
 
-        attribute "name" {
+        attribute "id" {
           type        = string
           description = <<-END
-            The ID to use for the schema, which will become the final component of the schema's resource name.
-          END
-        }
-
-        attribute "type" {
-          type        = string
-          description = <<-END
-            The type of the schema definition Default value is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
-          END
-        }
-
-        attribute "definition" {
-          type        = string
-          description = <<-END
-            The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
+            The resource ID of an existing schema to use.
+            Conflicts with `schema.name` and will be ignored if `schema.name` is set.
           END
         }
 
@@ -263,6 +250,31 @@ section {
           END
           default = "ENCODING_UNSPECIFIED"
         }
+
+        attribute "name" {
+          type        = string
+          description = <<-END
+            The ID to use for the schema, which will become the final component of the schema's resource name.
+            Conflicts with `schema.id`. If set a new schema resource will be created.
+          END
+        }
+
+        attribute "type" {
+          type        = string
+          description = <<-END
+            The type of the schema definition Default value is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+            Ignored if `schema.name` is not set.
+          END
+        }
+
+        attribute "definition" {
+          type        = string
+          description = <<-END
+            The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
+            Ignored if `schema.name` is not set.
+          END
+        }
+
       }
 
       variable "subscriptions" {

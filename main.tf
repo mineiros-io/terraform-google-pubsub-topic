@@ -19,10 +19,10 @@ resource "google_pubsub_topic" "topic" {
   }
 
   dynamic "schema_settings" {
-    for_each = try([var.schema.name], [])
+    for_each = can(var.schema.name) || can(var.schema.id) ? [1] : []
 
     content {
-      schema   = try(google_pubsub_schema.schema[var.schema.name].id, null)
+      schema   = can(var.schema.name) ? try(google_pubsub_schema.schema[var.schema.name].id, null) : var.schema.id
       encoding = try(var.schema.encoding, "ENCODING_UNSPECIFIED")
     }
   }
