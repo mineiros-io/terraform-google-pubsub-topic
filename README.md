@@ -190,17 +190,10 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   The `schema` object accepts the following attributes:
 
-  - [**`name`**](#attr-schema-name): *(Optional `string`)*<a name="attr-schema-name"></a>
+  - [**`id`**](#attr-schema-id): *(Optional `string`)*<a name="attr-schema-id"></a>
 
-    The ID to use for the schema, which will become the final component of the schema's resource name.
-
-  - [**`type`**](#attr-schema-type): *(Optional `string`)*<a name="attr-schema-type"></a>
-
-    The type of the schema definition Default value is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
-
-  - [**`definition`**](#attr-schema-definition): *(Optional `string`)*<a name="attr-schema-definition"></a>
-
-    The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
+    The resource ID of an existing schema to use.
+    Conflicts with `schema.name` and will be ignored if `schema.name` is set.
 
   - [**`encoding`**](#attr-schema-encoding): *(Optional `string`)*<a name="attr-schema-encoding"></a>
 
@@ -208,6 +201,21 @@ See [variables.tf] and [examples/] for details and use-cases.
     Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
 
     Default is `"ENCODING_UNSPECIFIED"`.
+
+  - [**`name`**](#attr-schema-name): *(Optional `string`)*<a name="attr-schema-name"></a>
+
+    The ID to use for the schema, which will become the final component of the schema's resource name.
+    Conflicts with `schema.id`. If set a new schema resource will be created.
+
+  - [**`type`**](#attr-schema-type): *(Optional `string`)*<a name="attr-schema-type"></a>
+
+    The type of the schema definition Default value is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+    Ignored if `schema.name` is not set.
+
+  - [**`definition`**](#attr-schema-definition): *(Optional `string`)*<a name="attr-schema-definition"></a>
+
+    The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
+    Ignored if `schema.name` is not set.
 
 - [**`subscriptions`**](#var-subscriptions): *(Optional `list(subscription)`)*<a name="var-subscriptions"></a>
 
