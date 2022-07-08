@@ -5,7 +5,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 module "terraform-google-pubsub-topic" {
-  source = "git@github.com:mineiros-io/terraform-google-pubsub-topic.git?ref=v0.0.1"
+  source = "git@github.com:mineiros-io/terraform-google-pubsub-topic.git?ref=v0.0.3"
 
   # All required module arguments
 
@@ -27,10 +27,11 @@ module "terraform-google-pubsub-topic" {
 # EXAMPLE PROVIDER CONFIGURATION
 # ----------------------------------------------------------------------------------------------------------------------
 
-provider "aws" {
-  version = "~> 3.0"
+provider "google" {
+  version = "~> 4.1"
 }
 
+### Replace with GCP creds variables
 # ----------------------------------------------------------------------------------------------------------------------
 # ENVIRONMENT VARIABLES:
 # ----------------------------------------------------------------------------------------------------------------------
