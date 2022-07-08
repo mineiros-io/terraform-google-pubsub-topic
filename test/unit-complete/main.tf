@@ -4,28 +4,10 @@
 # The purpose is to activate everything the module offers, but trying to keep execution time and costs minimal.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-variable "gcp_region" {
-  type        = string
-  description = "(Required) The gcp region in which all resources will be created."
-}
+module "test-sa" {
+  source = "github.com/mineiros-io/terraform-google-service-account?ref=v0.0.10"
 
-variable "gcp_project" {
-  type        = string
-  description = "(Required) The ID of the project in which the resource belongs."
-}
-
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.0"
-    }
-  }
-}
-
-provider "google" {
-  region  = var.gcp_region
-  project = var.gcp_project
+  account_id = "service-account-id-${local.random_suffix}"
 }
 
 # DO NOT RENAME MODULE NAME
@@ -43,8 +25,20 @@ module "test" {
     {
       role    = "roles/viewer"
       members = ["domain:mineiros.io"]
+    },
+    {
+      role    = "roles/editor"
+      members = ["computed:myserviceaccount"]
+    },
+    {
+      roles   = ["roles/admin", "roles/owner"]
+      members = ["group:engineers"]
     }
   ]
+
+  computed_members_map = {
+    myserviceaccount = "serviceAccount:${module.test-sa.service_account.email}"
+  }
 
   # add most/all other optional arguments
   labels = {
@@ -88,9 +82,3 @@ module "test" {
 
   module_depends_on = ["nothing"]
 }
-
-# outputs generate non-idempotent terraform plans so we disable them for now unless we need them.
-# output "all" {
-#   description = "All outputs of the module."
-#   value       = module.test
-# }
