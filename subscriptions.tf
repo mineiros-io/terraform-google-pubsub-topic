@@ -3,7 +3,7 @@ locals {
 }
 
 module "subscription" {
-  source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v0.0.2"
+  source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v0.0.3"
 
   for_each = var.module_enabled ? local.subscriptions_map : {}
 

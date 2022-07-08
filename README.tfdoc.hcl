@@ -172,6 +172,17 @@ section {
           END
         }
 
+        attribute "roles" {
+          type        = list(string)
+          description = <<-END
+            A list of roles that should be applied.
+            This is a shortcut if a set of members should be assigned to the same roles.
+            If `role` is set in addition, the list will be extended by the role.
+            Each role can only be defined once withing the list of IAM objects.
+            Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
+          END
+        }
+
         attribute "members" {
           type        = set(string)
           default     = []
@@ -194,6 +205,7 @@ section {
             - `domain:{domain}`: A G Suite domain (primary, instead of alias)
               name that represents all the users of that domain. For example,
               `google.com` or `example.com`.
+            - `computed:{identifier}`: An existing key from `var.computed_members_map`.
           END
         }
 
@@ -205,6 +217,14 @@ section {
             (non-authoritative/additive mode) members to the role.
           END
         }
+      }
+
+      variable "computed_members_map" {
+        type        = map(string)
+        description = <<-END
+          A map of members to replace in `members` of various IAM settings to handle terraform computed values.
+        END
+        default     = {}
       }
 
       variable "schema" {
@@ -248,7 +268,7 @@ section {
             The encoding of messages validated against schema.
             Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
           END
-          default = "ENCODING_UNSPECIFIED"
+          default     = "ENCODING_UNSPECIFIED"
         }
 
         attribute "name" {
@@ -274,7 +294,71 @@ section {
             Ignored if `schema.name` is not set.
           END
         }
+      }
 
+      variable "policy_bindings" {
+        type           = list(policy_binding)
+        description    = <<-END
+          A list of IAM policy bindings.
+        END
+        readme_example = <<-END
+          policy_bindings = [{
+            role    = "roles/viewer"
+            members = ["user:member@example.com"]
+          }]
+        END
+
+        attribute "role" {
+          required    = true
+          type        = string
+          description = <<-END
+            The role that should be applied.
+          END
+        }
+
+        attribute "members" {
+          required    = true
+          type        = set(string)
+          description = <<-END
+            Identities that will be granted the privilege in `role`.
+          END
+        }
+
+        attribute "condition" {
+          type           = object(condition)
+          description    = <<-END
+            An IAM Condition for a given binding.
+          END
+          readme_example = <<-END
+            condition = {
+              expression = "request.time < timestamp(\"2022-01-01T00:00:00Z\")"
+              title      = "expires_after_2021_12_31"
+            }
+          END
+
+          attribute "expression" {
+            required    = true
+            type        = string
+            description = <<-END
+              Textual representation of an expression in Common Expression Language syntax.
+            END
+          }
+
+          attribute "title" {
+            required    = true
+            type        = string
+            description = <<-END
+              A title for the expression, i.e. a short string describing its purpose.
+            END
+          }
+
+          attribute "description" {
+            type        = string
+            description = <<-END
+              An optional description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
+            END
+          }
+        }
       }
 
       variable "subscriptions" {

@@ -130,6 +130,14 @@ See [variables.tf] and [examples/] for details and use-cases.
     Note that custom roles must be of the format
     `[projects|organizations]/{parent-name}/roles/{role-name}`.
 
+  - [**`roles`**](#attr-iam-roles): *(Optional `list(string)`)*<a name="attr-iam-roles"></a>
+
+    A list of roles that should be applied.
+    This is a shortcut if a set of members should be assigned to the same roles.
+    If `role` is set in addition, the list will be extended by the role.
+    Each role can only be defined once withing the list of IAM objects.
+    Note that custom roles must be of the format `[projects|organizations]/{parent-name}/roles/{role-name}`.
+
   - [**`members`**](#attr-iam-members): *(Optional `set(string)`)*<a name="attr-iam-members"></a>
 
     Identities that will be granted the privilege in role. Each entry
@@ -150,6 +158,7 @@ See [variables.tf] and [examples/] for details and use-cases.
     - `domain:{domain}`: A G Suite domain (primary, instead of alias)
       name that represents all the users of that domain. For example,
       `google.com` or `example.com`.
+    - `computed:{identifier}`: An existing key from `var.computed_members_map`.
 
     Default is `[]`.
 
@@ -159,6 +168,12 @@ See [variables.tf] and [examples/] for details and use-cases.
     (non-authoritative/additive mode) members to the role.
 
     Default is `true`.
+
+- [**`computed_members_map`**](#var-computed_members_map): *(Optional `map(string)`)*<a name="var-computed_members_map"></a>
+
+  A map of members to replace in `members` of various IAM settings to handle terraform computed values.
+
+  Default is `{}`.
 
 - [**`schema`**](#var-schema): *(Optional `object(schema)`)*<a name="var-schema"></a>
 
@@ -216,6 +231,56 @@ See [variables.tf] and [examples/] for details and use-cases.
 
     The definition of the schema. This should contain a string representing the full definition of the schema that is a valid schema definition of the type specified in type.
     Ignored if `schema.name` is not set.
+
+- [**`policy_bindings`**](#var-policy_bindings): *(Optional `list(policy_binding)`)*<a name="var-policy_bindings"></a>
+
+  A list of IAM policy bindings.
+
+  Example:
+
+  ```hcl
+  policy_bindings = [{
+    role    = "roles/viewer"
+    members = ["user:member@example.com"]
+  }]
+  ```
+
+  Each `policy_binding` object in the list accepts the following attributes:
+
+  - [**`role`**](#attr-policy_bindings-role): *(**Required** `string`)*<a name="attr-policy_bindings-role"></a>
+
+    The role that should be applied.
+
+  - [**`members`**](#attr-policy_bindings-members): *(**Required** `set(string)`)*<a name="attr-policy_bindings-members"></a>
+
+    Identities that will be granted the privilege in `role`.
+
+  - [**`condition`**](#attr-policy_bindings-condition): *(Optional `object(condition)`)*<a name="attr-policy_bindings-condition"></a>
+
+    An IAM Condition for a given binding.
+
+    Example:
+
+    ```hcl
+    condition = {
+      expression = "request.time < timestamp(\"2022-01-01T00:00:00Z\")"
+      title      = "expires_after_2021_12_31"
+    }
+    ```
+
+    The `condition` object accepts the following attributes:
+
+    - [**`expression`**](#attr-policy_bindings-condition-expression): *(**Required** `string`)*<a name="attr-policy_bindings-condition-expression"></a>
+
+      Textual representation of an expression in Common Expression Language syntax.
+
+    - [**`title`**](#attr-policy_bindings-condition-title): *(**Required** `string`)*<a name="attr-policy_bindings-condition-title"></a>
+
+      A title for the expression, i.e. a short string describing its purpose.
+
+    - [**`description`**](#attr-policy_bindings-condition-description): *(Optional `string`)*<a name="attr-policy_bindings-condition-description"></a>
+
+      An optional description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
 
 - [**`subscriptions`**](#var-subscriptions): *(Optional `list(subscription)`)*<a name="var-subscriptions"></a>
 
