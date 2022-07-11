@@ -5,7 +5,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 module "terraform-google-pubsub-topic" {
-  source = "git@github.com:mineiros-io/terraform-google-pubsub-topic.git?ref=v0.0.3"
+  source = "git@github.com:mineiros-io/terraform-google-pubsub-topic.git?ref=v0.0.4"
 
   # All required module arguments
 
