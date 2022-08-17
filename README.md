@@ -514,6 +514,30 @@ See [variables.tf] and [examples/] for details and use-cases.
       - v1beta1: uses the push format defined in the v1beta1 Pub/Sub API.
       - v1 or v1beta2: uses the push format defined in the v1 Pub/Sub API.
 
+    - [**`bigquery_config`**](#attr-subscriptions-push_config-bigquery_config): *(Optional `object(bigquery_config)`)*<a name="attr-subscriptions-push_config-bigquery_config"></a>
+
+      If delivery to BigQuery is used with this subscription, this field is used to configure it.
+      Either `push_config` or `bigquery_config` can be set, but not both.
+      If both are empty, then the subscriber will pull and ack messages using API methods."
+
+      The `bigquery_config` object accepts the following attributes:
+
+      - [**`table`**](#attr-subscriptions-push_config-bigquery_config-table): *(**Required** `string`)*<a name="attr-subscriptions-push_config-bigquery_config-table"></a>
+
+        The name of the table to which to write data, of the form `{projectId}.{datasetId}.{tableId}`
+
+      - [**`use_topic_schema`**](#attr-subscriptions-push_config-bigquery_config-use_topic_schema): *(Optional `bool`)*<a name="attr-subscriptions-push_config-bigquery_config-use_topic_schema"></a>
+
+        When `true`, use the topic's schema as the columns to write to in BigQuery, if it exists.
+
+      - [**`write_metadata`**](#attr-subscriptions-push_config-bigquery_config-write_metadata): *(Optional `bool`)*<a name="attr-subscriptions-push_config-bigquery_config-write_metadata"></a>
+
+        When `true`, write the subscription name, messageId, publishTime, attributes, and orderingKey to additional columns in the table. The subscription name, messageId, and publishTime fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column.
+
+      - [**`drop_unknown_fields`**](#attr-subscriptions-push_config-bigquery_config-drop_unknown_fields): *(Optional `bool`)*<a name="attr-subscriptions-push_config-bigquery_config-drop_unknown_fields"></a>
+
+        When `true` and `use_topic_schema` is `true`, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog.
+
   - [**`iam`**](#attr-subscriptions-iam): *(Optional `list(iam)`)*<a name="attr-subscriptions-iam"></a>
 
     List of IAM access roles to grant to a set of identities on the subscription.

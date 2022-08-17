@@ -3,7 +3,7 @@ locals {
 }
 
 module "subscription" {
-  source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v0.0.3"
+  source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v0.1.0"
 
   for_each = var.module_enabled ? local.subscriptions_map : {}
 
@@ -22,6 +22,7 @@ module "subscription" {
   dead_letter_policy    = try(each.value.dead_letter_policy, null)
   retry_policy          = try(each.value.retry_policy, null)
   push_config           = try(each.value.push_config, null)
+  bigquery_config       = try(each.value.bigquery_config, null)
 
   iam = try(each.value.iam, [])
 

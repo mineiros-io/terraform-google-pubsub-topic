@@ -633,6 +633,44 @@ section {
               - v1 or v1beta2: uses the push format defined in the v1 Pub/Sub API.
             END
           }
+
+          attribute "bigquery_config" {
+            type        = object(bigquery_config)
+            description = <<-END
+              If delivery to BigQuery is used with this subscription, this field is used to configure it.
+              Either `push_config` or `bigquery_config` can be set, but not both.
+              If both are empty, then the subscriber will pull and ack messages using API methods."
+            END
+
+            attribute "table" {
+              type        = string
+              required    = true
+              description = <<-END
+                The name of the table to which to write data, of the form `{projectId}.{datasetId}.{tableId}`
+              END
+            }
+
+            attribute "use_topic_schema" {
+              type        = bool
+              description = <<-END
+                When `true`, use the topic's schema as the columns to write to in BigQuery, if it exists.
+              END
+            }
+
+            attribute "write_metadata" {
+              type        = bool
+              description = <<-END
+                When `true`, write the subscription name, messageId, publishTime, attributes, and orderingKey to additional columns in the table. The subscription name, messageId, and publishTime fields are put in their own columns while all other message properties (other than data) are written to a JSON object in the attributes column.
+              END
+            }
+
+            attribute "drop_unknown_fields" {
+              type        = bool
+              description = <<-END
+                When `true` and `use_topic_schema` is `true`, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog.
+              END
+            }
+          }
         }
 
         attribute "iam" {
