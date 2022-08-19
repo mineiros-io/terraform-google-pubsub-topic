@@ -11,29 +11,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Support for bigquer_config in subscriptions
+- Add support for `bigquery_config` attribute in subscriptions
+
+### Changed
+
+- Require Terraform Google Provider v4.32+
 
 ## [0.0.4]
 
 ### Added
 
-- Support for computed members map variable
-
-### Fixed
-
-- Complete test suite
+- Add support for `computed_members_map` variable in IAM
 
 ## [0.0.3]
 
 ### Fixed
 
-- Fix subscription retry_policy
+- Fix subscription `retry_policy` attribute
 
 ## [0.0.2]
 
 ### Fixed
 
-- Fix `iam` validation
+- Fix `iam` input variable validation
 
 ## [0.0.1]
 
