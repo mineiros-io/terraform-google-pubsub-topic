@@ -4,7 +4,7 @@ vendor {
       files = [
         "/*.tf",
         "/README.*",
-        "LICENSE",
+        "/LICENSE",
       ]
     }
   }
