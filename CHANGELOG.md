@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1]
+
+### Fixed
+
+- Fix support for schema definitions
+
 ## [0.1.0]
 
 ### Added
@@ -44,7 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for [`mineiros-io/terraform-google-pubsub-topic-iam` Terraform Module](https://github.com/mineiros-io/terraform-google-pubsub-topic-iam)
 - Add support for [`mineiros-io/terraform-google-pubsub-subscription` Terraform Module](https://github.com/mineiros-io/terraform-google-pubsub-subscription)
 
-[unreleased]: https://github.com/mineiros-io/terraform-google-pubsub-topic/compare/v0.1.0...HEAD
+[unreleased]: https://github.com/mineiros-io/terraform-google-pubsub-topic/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/mineiros-io/terraform-google-pubsub-topic/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/mineiros-io/terraform-google-pubsub-topic/compare/v0.0.4...v0.1.0
 [0.0.4]: https://github.com/mineiros-io/terraform-google-pubsub-topic/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/mineiros-io/terraform-google-pubsub-topic/compare/v0.0.2...v0.0.3
