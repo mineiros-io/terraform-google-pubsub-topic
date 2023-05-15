@@ -199,7 +199,7 @@ See [variables.tf] and [examples/] for details and use-cases.
           type = "int"
         }
       ]
-    }
+    })
   }
   ```
 

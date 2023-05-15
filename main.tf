@@ -31,7 +31,7 @@ resource "google_pubsub_topic" "topic" {
 }
 
 resource "google_pubsub_schema" "schema" {
-  for_each = can(var.schema.name) ? { var.schema.name = var.schema } : {}
+  for_each = can(var.schema.name) ? { (var.schema.name) = var.schema } : {}
 
   project = var.project
 

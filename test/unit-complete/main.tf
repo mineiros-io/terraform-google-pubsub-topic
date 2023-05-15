@@ -49,6 +49,26 @@ module "test" {
     "us-west1",
   ]
 
+  schema = {
+    name     = "example"
+    type     = "AVRO"
+    encoding = "JSON"
+    definition = jsonencode({
+      type = "record"
+      name = "Avro"
+      fields = [
+        {
+          name = "StringField"
+          type = "string"
+        },
+        {
+          name = "IntField"
+          type = "int"
+        }
+      ]
+    })
+  }
+
   subscriptions = [
     {
       name    = "test-name"

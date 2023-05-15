@@ -250,7 +250,7 @@ section {
                   type = "int"
                 }
               ]
-            }
+            })
           }
         END
 
