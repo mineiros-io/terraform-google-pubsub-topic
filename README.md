@@ -13,7 +13,7 @@ A [Terraform](https://www.terraform.io) module for creating and managing a
 [Google Cloud](https://cloud.google.com/)
 
 **_This module supports Terraform version 1
-and is compatible with the Terraform Google Provider version 4._** and 5_**
+and is compatible with the Terraform Google Provider version 5_**
 
 This module is part of our Infrastructure as Code (IaC) framework
 that enables our users and customers to easily deploy and manage reusable,
