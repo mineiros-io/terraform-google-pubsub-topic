@@ -1,11 +1,12 @@
 locals {
-  subscriptions_map = { for subscription in var.subscriptions : subscription.name => subscription }
+  subscriptions_map          = { for subscription in var.subscriptions : subscription.name => subscription }
+  subscriptions_map_selector = [local.subscriptions_map, {}]
 }
 
 module "subscription" {
   source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v0.1.0"
 
-  for_each = var.module_enabled ? local.subscriptions_map : tomap({})
+  for_each = local.subscriptions_map_selector[var.module_enabled ? 0 : 1]
 
   project = google_pubsub_topic.topic[0].project
   topic   = google_pubsub_topic.topic[0].id
