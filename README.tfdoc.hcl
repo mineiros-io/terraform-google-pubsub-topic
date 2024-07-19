@@ -653,7 +653,14 @@ section {
             attribute "use_topic_schema" {
               type        = bool
               description = <<-END
-                When `true`, use the topic's schema as the columns to write to in BigQuery, if it exists.
+                When `true`, use the topic's schema as the columns to write to in BigQuery, if it exists. Only one of use_topic_schema and use_table_schema can be set.
+              END
+            }
+
+            attribute "use_table_schema" {
+              type        = bool
+              description = <<-END
+                When true, use the BigQuery table's schema as the columns to write to in BigQuery. Messages must be published in JSON format. Only one of use_topic_schema and use_table_schema can be set.
               END
             }
 
@@ -669,6 +676,69 @@ section {
               description = <<-END
                 When `true` and `use_topic_schema` is `true`, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog.
               END
+            }
+
+            attribute "service_account_email" {
+              type        = string
+              description = <<-END
+                The service account to use to write to BigQuery. If not specified, the Pub/Sub service agent, service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+              END
+            }
+          }
+        }
+
+        attribute "cloud_storage_config" {
+          type        = object(cloud_storage_config)
+          description = <<-END
+            If delivery to Cloud Storage is used with this subscription, this field is used to configure it. Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined. If all three are empty, then the subscriber will pull and ack messages using API methods.
+          END
+
+          attribute "bucket" {
+            type        = string
+            required    = true
+            description = <<-END
+           User-provided name for the Cloud Storage bucket. The bucket must be created by the user. 
+           The bucket name must be without any prefix like "gs://".
+          END
+          }
+          attribute "filename_prefix" {
+            type        = string
+            description = <<-END
+             (Optional) User-provided prefix for Cloud Storage filename.
+          END
+          }
+          attribute "filename_suffix" {
+            type        = string
+            description = <<-END
+            (Optional) User-provided suffix for Cloud Storage filename. Must not end in "/".
+          END
+          }
+          attribute "max_duration" {
+            type        = string
+            description = <<-END
+            (Optional) The maximum duration that can elapse before a new Cloud Storage file is created. 
+            Min 1 minute, max 10 minutes, default 5 minutes. May not exceed the subscription's acknowledgement deadline. 
+            A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+          END
+          }
+          attribute "max_bytes" {
+            type        = number
+            description = <<-END
+            (Optional) The maximum bytes that can be written to a Cloud Storage file before a new file is created. 
+            Min 1 KB, max 10 GiB. The maxBytes limit may be exceeded in cases where messages are larger than the limit.
+          END
+          }
+          attribute "avro_config" {
+            type        = object(avro_config)
+            description = <<-END
+            If set, message data will be written to Cloud Storage in Avro format.
+          END
+
+            attribute "write_metadata" {
+              type        = bool
+              description = <<-END
+              When true, write the subscription name, messageId, publishTime, attributes, and orderingKey as additional fields in the output.
+            END
             }
           }
         }

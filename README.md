@@ -528,7 +528,11 @@ See [variables.tf] and [examples/] for details and use-cases.
 
       - [**`use_topic_schema`**](#attr-subscriptions-push_config-bigquery_config-use_topic_schema): *(Optional `bool`)*<a name="attr-subscriptions-push_config-bigquery_config-use_topic_schema"></a>
 
-        When `true`, use the topic's schema as the columns to write to in BigQuery, if it exists.
+        When `true`, use the topic's schema as the columns to write to in BigQuery, if it exists. Only one of use_topic_schema and use_table_schema can be set.
+
+      - [**`use_table_schema`**](#attr-subscriptions-push_config-bigquery_config-use_table_schema): *(Optional `bool`)*<a name="attr-subscriptions-push_config-bigquery_config-use_table_schema"></a>
+
+        When true, use the BigQuery table's schema as the columns to write to in BigQuery. Messages must be published in JSON format. Only one of use_topic_schema and use_table_schema can be set.
 
       - [**`write_metadata`**](#attr-subscriptions-push_config-bigquery_config-write_metadata): *(Optional `bool`)*<a name="attr-subscriptions-push_config-bigquery_config-write_metadata"></a>
 
@@ -537,6 +541,50 @@ See [variables.tf] and [examples/] for details and use-cases.
       - [**`drop_unknown_fields`**](#attr-subscriptions-push_config-bigquery_config-drop_unknown_fields): *(Optional `bool`)*<a name="attr-subscriptions-push_config-bigquery_config-drop_unknown_fields"></a>
 
         When `true` and `use_topic_schema` is `true`, any fields that are a part of the topic schema that are not part of the BigQuery table schema are dropped when writing to BigQuery. Otherwise, the schemas must be kept in sync and any messages with extra fields are not written and remain in the subscription's backlog.
+
+      - [**`service_account_email`**](#attr-subscriptions-push_config-bigquery_config-service_account_email): *(Optional `string`)*<a name="attr-subscriptions-push_config-bigquery_config-service_account_email"></a>
+
+        The service account to use to write to BigQuery. If not specified, the Pub/Sub service agent, service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com, is used.
+
+  - [**`cloud_storage_config`**](#attr-subscriptions-cloud_storage_config): *(Optional `object(cloud_storage_config)`)*<a name="attr-subscriptions-cloud_storage_config"></a>
+
+    If delivery to Cloud Storage is used with this subscription, this field is used to configure it. Either pushConfig, bigQueryConfig or cloudStorageConfig can be set, but not combined. If all three are empty, then the subscriber will pull and ack messages using API methods.
+
+    The `cloud_storage_config` object accepts the following attributes:
+
+    - [**`bucket`**](#attr-subscriptions-cloud_storage_config-bucket): *(**Required** `string`)*<a name="attr-subscriptions-cloud_storage_config-bucket"></a>
+
+      User-provided name for the Cloud Storage bucket. The bucket must be created by the user. 
+      The bucket name must be without any prefix like "gs://".
+
+    - [**`filename_prefix`**](#attr-subscriptions-cloud_storage_config-filename_prefix): *(Optional `string`)*<a name="attr-subscriptions-cloud_storage_config-filename_prefix"></a>
+
+      (Optional) User-provided prefix for Cloud Storage filename.
+
+    - [**`filename_suffix`**](#attr-subscriptions-cloud_storage_config-filename_suffix): *(Optional `string`)*<a name="attr-subscriptions-cloud_storage_config-filename_suffix"></a>
+
+      (Optional) User-provided suffix for Cloud Storage filename. Must not end in "/".
+
+    - [**`max_duration`**](#attr-subscriptions-cloud_storage_config-max_duration): *(Optional `string`)*<a name="attr-subscriptions-cloud_storage_config-max_duration"></a>
+
+      (Optional) The maximum duration that can elapse before a new Cloud Storage file is created. 
+      Min 1 minute, max 10 minutes, default 5 minutes. May not exceed the subscription's acknowledgement deadline. 
+      A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+
+    - [**`max_bytes`**](#attr-subscriptions-cloud_storage_config-max_bytes): *(Optional `number`)*<a name="attr-subscriptions-cloud_storage_config-max_bytes"></a>
+
+      (Optional) The maximum bytes that can be written to a Cloud Storage file before a new file is created. 
+      Min 1 KB, max 10 GiB. The maxBytes limit may be exceeded in cases where messages are larger than the limit.
+
+    - [**`avro_config`**](#attr-subscriptions-cloud_storage_config-avro_config): *(Optional `object(avro_config)`)*<a name="attr-subscriptions-cloud_storage_config-avro_config"></a>
+
+      If set, message data will be written to Cloud Storage in Avro format.
+
+      The `avro_config` object accepts the following attributes:
+
+      - [**`write_metadata`**](#attr-subscriptions-cloud_storage_config-avro_config-write_metadata): *(Optional `bool`)*<a name="attr-subscriptions-cloud_storage_config-avro_config-write_metadata"></a>
+
+        When true, write the subscription name, messageId, publishTime, attributes, and orderingKey as additional fields in the output.
 
   - [**`iam`**](#attr-subscriptions-iam): *(Optional `list(iam)`)*<a name="attr-subscriptions-iam"></a>
 
