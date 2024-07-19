@@ -1,6 +1,6 @@
 globals {
   # message_retention_duration is only supported since 4.1.0
-  minimum_provider_version    = "5"
+  minimum_provider_version    = "5.35.0"
   provider_version_constraint = "~> ${global.minimum_provider_version}"
 
   stack_basename = tm_reverse(tm_split("/", terramate.path))[0]
