@@ -24,6 +24,7 @@ module "subscription" {
   retry_policy          = try(each.value.retry_policy, null)
   push_config           = try(each.value.push_config, null)
   bigquery_config       = try(each.value.bigquery_config, null)
+  cloud_storage_config  = try(each.value.cloud_storage_config, null)
 
   iam = try(each.value.iam, [])
 
