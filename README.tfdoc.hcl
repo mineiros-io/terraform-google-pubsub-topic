@@ -71,7 +71,7 @@ section {
 
       ```hcl
       module "terraform-google-pubsub-topic" {
-        source = "github.com/mineiros-io/terraform-google-pubsub-topic?ref=v0.1.2"
+        source = "github.com/mineiros-io/terraform-google-pubsub-topic?ref=v1.2.0"
 
         name    = "pub-sub-topic-name"
         project = "id-of-project"

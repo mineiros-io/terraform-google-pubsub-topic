@@ -4,7 +4,7 @@ locals {
 }
 
 module "subscription" {
-  source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v1.0.0"
+  source = "github.com/mineiros-io/terraform-google-pubsub-subscription?ref=v1.1.0"
 
   for_each = local.subscriptions_map_selector[var.module_enabled ? 0 : 1]
 
