@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0]
+
+### Added
+
+- Use terraform-google-pubsub-subscription module v1.1.0
+
+## [1.1.0]
+
+### Added
+
+- Add support for cloud_storage_config in subscriptions
+
+## [1.0.1]
+
+### Fixed
+
+- Ternary logic in subscriptions breaks some edge cases
+
+## [0.2.1]
+
+### Fixed
+
+- Ternary logic in subscriptions breaks some edge cases
+
+## [1.0.0]
+
+### Breaking changes
+
+- Drop support for Google provider v4
+
+## [0.2.0]
+
+### Added
+
+- Add support for Google provider v5
+
 ## [0.1.2]
 
 ### Fixed
